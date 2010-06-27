@@ -1,0 +1,27 @@
+/* Use a border in IE for pleasing appearance, since rounded
+ * borders are not supported yet, and fix appropriate widths.
+ */
+
+#main-content {
+  border-left: 1px solid #272727;
+  border-right: 1px solid #272727;
+  border-bottom: 1px solid #272727;
+  width: 898px;
+  height: 645px;
+}
+
+#main-content #right-side {
+  width: 573px;
+}
+
+#main-content #right-side #home-intro {
+  margin-right: 23px;
+}
+
+#main-content #side-menu-options {
+  border-bottom: 1px solid #8A9AAA;
+}
+
+#main-content #side-menu-options a.last-menu-option {
+  border-bottom: none;
+}

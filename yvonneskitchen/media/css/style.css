@@ -1,0 +1,357 @@
+/*
+ * General CSS
+ *
+ * Colors
+ * 	dark blue: #20384f
+ * 	light blue: #8A9AAA
+ * 	light blue 2: #2178A3
+ * 	yellow: #F2D224
+ * 	white: #e2e2e2
+ * 	black: #272727
+ */
+
+body {
+    position: relative;
+    background: #fff url('/media/img/background2.jpg') repeat 0 0;
+    color: #555;
+    height: 100%;
+}
+
+a {
+    font-weight: bold;
+    text-decoration: none;
+    color: #FD5322;
+}
+
+a:hover {
+    color: #344f7C;
+    text-decoration: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+#historyFrame {
+    position: absolute;
+    z-index: -1;
+    height: 0px;
+    width: 0px;
+}
+
+/* NAVIGATION BAR */
+
+#nav {
+    display: block;
+    width: 100%;
+    height: 75px;
+    background: url('/media/img/nav-bg.png') repeat-x 0 0;
+}
+
+#nav div a {
+    display: block;
+    float: left;
+    width: 157px;
+    height: 74px;
+    border-right: 1px solid #1B222C;
+    border-bottom: 1px solid #1B222C;
+}
+
+#nav div a:hover, #nav div a.selected {
+    background: url('/media/img/nav-bg-hover.png') repeat-x 0 0;
+}
+
+#nav div a img {
+    width: 158px;
+    height: 75px;
+    border-width: 0;
+}
+
+#nav div a#nav-home img {
+    background: url('/media/img/nav-home.png') no-repeat 0 0;
+}
+
+#nav div a#nav-home:hover img, #nav div a#nav-home.selected img {
+    background: url('/media/img/nav-home-hover.png') no-repeat 0 0;
+}
+
+#nav div a#nav-catering img {
+    background: url('/media/img/nav-catering.png') no-repeat 0 0;
+}
+
+#nav div a#nav-catering:hover img, #nav div a#nav-catering.selected img {
+    background: url('/media/img/nav-catering-hover.png') no-repeat 0 0;
+}
+
+#nav div a#nav-menu img {
+    background: url('/media/img/nav-menu.png') no-repeat 0 0;
+}
+
+#nav div a#nav-menu:hover img, #nav div a#nav-menu.selected img {
+    background: url('/media/img/nav-menu-hover.png') no-repeat 0 0;
+}
+
+#nav div a#nav-pricing img {
+    background: url('/media/img/nav-pricing.png') no-repeat 0 0;
+}
+
+#nav div a#nav-pricing:hover img, #nav div a#nav-pricing.selected img {
+    background: url('/media/img/nav-pricing-hover.png') no-repeat 0 0;
+}
+
+#nav div a#nav-about img {
+    background: url('/media/img/nav-about.png') no-repeat 0 0;
+}
+
+#nav div a#nav-about:hover img, #nav div a#nav-about.selected img {
+    background: url('/media/img/nav-about-hover.png') no-repeat 0 0;
+}
+
+#nav div a#nav-contact img {
+    background: url('/media/img/nav-contact.png') no-repeat 0 0;
+}
+
+#nav div a#nav-contact:hover img, #nav div a#nav-contact.selected img {
+    background: url('/media/img/nav-contact-hover.png') no-repeat 0 0;
+}
+
+/* HEADER */
+
+#header {
+    display: block;
+    margin: 0 auto;
+    height: 115px;
+    width: 950px;
+}
+
+#header #logo {
+    display: block;
+    float: left;
+    margin: 20px 0 0 0;
+}
+
+#content {
+    display: block;
+    margin: 0 auto;
+    width: 926px;
+    height: 576px;
+    padding: 10px;
+    background: #8EAB97;
+    border: 2px solid #000;
+    -moz-border-radius: 35px;
+    -webkit-border-radius: 35px;
+}
+
+#home-slideshow-image-frame {
+    display: block;
+    position: relative;
+    float: left;
+    width: 608px;
+    height: 375px;
+    padding: 5px;
+    margin: 0 10px 10px 0;
+    background: #C6D1B3;
+    -moz-border-radius: 25px;
+    -webkit-border-radius: 25px;
+}
+
+#home-slideshow-image-frame h1 {
+    position: absolute;
+    z-index: 3;
+    bottom: 20px;
+    right: 15px;
+    text-align: right;
+    font-family: tahoma;
+    font-size: 2.0em;
+    font-weight: bold;
+    margin: 0;
+    color: #C6D1B3;
+}
+
+#home-slideshow-image-frame img {
+    position: absolute;
+    z-index: 1;
+    float: left;
+    width: 608px;
+    height: 375px;
+}
+
+#home-slideshow-caption {
+    position: absolute;
+    z-index: 2;
+    bottom: 5px;
+    height: 50px;
+    width: 608px;
+    background: #000;
+    opacity: 0.5;
+    -moz-border-radius-bottomleft: 22px;
+    -moz-border-radius-bottomright: 22px;
+    -webkit-border-bottom-left-radius: 22px;
+    -webkit-border-bottom-right-radius: 22px;
+}
+
+div.slideshow-buttons {
+    position: absolute;
+    z-index: 3;
+    bottom: 20px;
+    padding: 0 0 0 15px;
+}
+
+div.slideshow-buttons a {
+    display: block;
+    float: left;
+    margin: 0 15px 0 0;
+    height: 20px;
+    width: 20px;
+    background: #C6D1B3;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+
+div.slideshow-buttons a div {
+    display: block;
+    width: 10px;
+    height: 10px;
+    margin: 5px auto;
+    background: #8DA164;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+div.slideshow-buttons a:hover, div.slideshow-buttons a.selected {
+    background: #8DA164;
+}
+
+div.slideshow-buttons a:hover div, div.slideshow-buttons a.selected div {
+    background: #C6D1B3;
+}
+
+#home-introduction {
+    display: block;
+    float: left;
+    width: 288px;
+    height: 385px;
+    padding: 0 5px;
+    margin: 0 0 10px 0;
+    -moz-border-radius: 25px;
+    -webkit-border-radius: 25px;
+}
+
+#home-introduction img {
+    display: block;
+    float: left;
+    margin: 0 0 5px 0;
+}
+
+#home-introduction p {
+    display: block;
+    float: left;
+    width: 288px;
+    height: 141px;
+    margin: 0 0 10px 0;
+}
+
+#home-estimate {
+    display: block;
+    float: left;
+    height: 160px;
+    width: 398px;
+    padding: 10px;
+    margin: 0 10px 0 0;
+}
+
+#home-estimate img {
+    display: block;
+    float: left;
+    margin: 0 0 10px 0;
+}
+
+#home-estimate form {
+    display: block;
+    float: left;
+    width: 287px;
+}
+
+#home-estimate form select {
+    display: block;
+    float: left;
+    width: 287px;
+    height: 28px;
+    color: #555;
+    margin: 0 0 10px 0;
+    padding: 5px;
+    background: transparent;
+    border: 1px solid #CECCBF;
+    -moz-border-radius: 9px;
+    -webkit-border-radius: 9px;
+}
+
+#home-estimate form input {
+    display: block;
+    float: left;
+    width: 275px;
+    height: 16px;
+    color: #555;
+    margin: 0 0 10px 0;
+    padding: 5px;
+    background: transparent;
+    border: 1px solid #CECCBF;
+    -moz-border-radius: 9px;
+    -webkit-border-radius: 9px;
+}
+
+#home-estimate form #home-estimate-button {
+    width: auto;
+    height: 26px;
+    background: #45556E;
+    font-weight: bold;
+    color: #CECCBF;
+    padding: 3px 5px 5px 5px;
+}
+
+#home-estimate form #home-estimate-button:hover {
+    cursor: pointer;
+    color: #1B222C;
+    background: #8DA164;
+}
+
+#home-special {
+    display: block;
+    float: left;
+    width: 288px;
+    height: 170px;
+    padding: 5px;
+}
+
+#home-special img.header {
+    display: block;
+    float: left;
+    margin: 0 0 10px 0;
+}
+
+#home-special #home-special-thumb {
+    display: block;
+    float: left;
+    width: 130px;
+    height: 130px;
+    margin: 0 10px 0 0;
+    border: 1px solid #CECCBF;
+    -moz-border-radius: 22px;
+    -webkit-border-radius: 22px;
+}
+
+#home-special h2 {
+    display: block;
+    float: left;
+    width: 140px;
+    height: 18px;
+    font-size: 1.5em;
+    margin: 0 0 10px 0;
+}
+
+#home-special p {
+    display: block;
+    float: left;
+    width: 140px;
+    margin: 0;
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+
+    <!--Meta Data-->
+    <title>{{ page_title }}</title>
+    <meta name="description" content="{{ page_description }}" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+    <!--Style Sheets-->
+    <link rel="stylesheet" href="/media/css/screen.css" type="text/css" media="screen, projection" />
+    <link rel="stylesheet" href="/media/css/print.css" type="text/css" media="print" />
+    <!--[if IE]>
+    <link rel="stylesheet" href="/media/css/ie.css" type="text/css" media="screen, projection" />
+    <![endif]-->
+    <link rel="stylesheet" href="/media/css/style.css" type="text/css" media="screen, projection" />
+    <!--[if IE]>
+    <link rel="stylesheet" href="/media/css/iestyle.css" type="text/css" media="screen, projection" />
+    <![endif]-->
+
+    <!--Javascript Files-->
+    <script type="text/javascript" src="/media/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="/media/js/jquery.django.ajax.js"></script>
+    <script type="text/javascript" src="/media/js/ajax.js"></script>
+
+  </head>
+
+	<body>
+
+		<div id="nav">
+			<div class="container">
+				<a href="/" id="nav-home" class="nav-button{%ifequal page "home"%} selected{%endifequal%}"><img src="/media/img/blank.png"/></a>
+				<a href="/catering/" id="nav-catering"><img src="/media/img/blank.png"/></a>
+				<a href="/menu/" id="nav-menu"><img src="/media/img/blank.png"/></a>
+				<a href="/pricing/" id="nav-pricing"><img src="/media/img/blank.png"/></a>
+				<a href="/about/" id="nav-about"><img src="/media/img/blank.png"/></a>
+				<a href="/contact/" id="nav-contact"><img src="/media/img/blank.png"/></a>
+			</div>
+		</div>
+
+    <div id="header">
+			<img id="logo" src="/media/img/logo.png"/>
+    </div>
+
+    <div id="content" class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+
+	</body>
+
+</html>
