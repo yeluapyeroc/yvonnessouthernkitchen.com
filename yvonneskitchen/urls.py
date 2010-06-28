@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.conf import settings
 from django.contrib import admin
 
 admin.autodiscover()
@@ -19,5 +20,5 @@ urlpatterns = patterns('yvonneskitchen.Page.base_views',
 
 urlpatterns += patterns('',
         ####### Static Media Serving #######
-        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/yeluapyeroc/programming/web/yvonnessouthernkitchen.com/yvonneskitchen/media'}),
+        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
         )
