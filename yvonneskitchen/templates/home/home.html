@@ -1,47 +1,53 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div id="home-slideshow-image-frame">
-  <div id="home-slideshow-caption">
-  </div>
-  <div class="slideshow-buttons">
-    <a class="selected" href="#">
-      <div></div>
-    </a>
-    <a href="#">
-      <div></div>
-    </a>
-    <a href="#">
-      <div></div>
-    </a>
-    <a href="#">
-      <div></div>
-    </a>
-    <a href="#">
-      <div></div>
-    </a>
-  </div>
-  <h1>Cajun Chicken Pasta</h1>
-  <img src="/media/img/cajun-chicken-pasta.png"/>
+    <div id="home-introduction">
+        <div id="welcome"><img src="/media/img/welcome.png"/></div>
+        {{ intro|safe }}
+        <div id="fresh"><img src="/media/img/fresh.png"/></div>
+        {{ food_description|safe }}
+    </div>
+    <div id="slideshow-frame">
+        <div id="slideshow-caption">
+        </div>
+
+        <div class="slideshow-buttons">
+        {% for item in featured_items %}
+            <a {% if forloop.first %}class="selected" {% endif %}href="#"><div></div></a>
+        {% endfor %}
+        </div>
+
+        <h1>Cajun Chicken Pasta</h1>
+
+        <div id="slideshow-inner-frame">
+        {% for item in featured_items %}
+            <div class="feature-image{% if forloop.first %} selected{% endif %}" style="background:url('{{item.feature_image.url}}');"></div>
+        {% endfor %}
+        </div>
+    </div>
+    <div id="home-estimate">
+        <h1>Get A Price Estimate</h1>
+        <p>Build a custom menu for your event and see what it would cost to order. Just click on a menu item to add it to your estimate.</p>
+        <form id="estimate-form" action="/estimate/" method="post">
+            {{ estimate_form.service_option }}
+            {{ estimate_form.head_count }}
+            {{ estimate_form.zip_code }}
+            <input id="estimate-button" type="submit" value="Customize Your Menu"/>
+        </form>
+    </div>
+    <div id="home-special">
+        <img class="header" src="/media/img/special.png"/>
+        <div id="home-special-thumb" style="background:url('{{special.image.url}}');"></div>
+        <h2>${{special.special_price}}{%if special.per_person_item %} / person{%endif%}</h2>
+    <p>{{special.description}}</p>
 </div>
-<div id="home-introduction">
-  <img src="/media/img/welcome.png"/>
-  {{ intro|safe }}
-  <img src="/media/img/fresh.png"/>
-  {{ food_description|safe }}
-</div>
-<div id="home-special">
-  <img class="header" src="/media/img/special.png"/>
-  <div id="home-special-thumb" style="background:url('{{special.image.url}}');"></div>
-  <h2>${{special.special_price}}</h2>
-  <p>{{special.description}}</p>
-</div>
-<div id="home-estimate">
-  <img src="/media/img/estimate.png"/>
-  <form id="estimate-form" action="/estimate/" method="post">
-    {{ estimate_form.service_option }}
-    {{ estimate_form.head_count }}
-    <input id="home-estimate-button" type="submit" value="Customize Your Menu"/>
-  </form>
+<div id="home-updates">
+    <h1>Weekly Special Alerts</h1>
+    <p>Host luncheons often? Recieve an email alert for each week's special menu item.</p>
+    <form id="weekly-special-form" action="/special-update/" method="post">
+        {{ weekly_special_form.name }}
+        {{ weekly_special_form.email_address }}
+        <input id="home-updates-button" type="submit" value="Register"/>
+    </form>
 </div>
 {% endblock %}

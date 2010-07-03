@@ -7,7 +7,7 @@ class MenuItem(models.Model):
     CATEGORY_CHOICES = (
             ('soup', 'Soup'),
             ('salad', 'Salad'),
-            ('appetizer', 'Appetizer'),
+            ('side', 'Side'),
             ('tray', 'Tray'),
             ('breakfast', 'Breakfast'),
             ('lunch', 'Lunch'),
@@ -33,6 +33,19 @@ class MenuItem(models.Model):
             upload_to = 'img/menu/',
             null = True,
             blank = True
+            )
+
+    feature_image = models.ImageField(
+            _('Feature Image'),
+            default = None,
+            upload_to = 'img/menu/',
+            null = True,
+            blank = True
+            )
+
+    featured = models.BooleanField(
+            _('Featured'),
+            default = False
             )
 
     description = models.TextField(

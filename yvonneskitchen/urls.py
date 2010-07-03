@@ -18,6 +18,11 @@ urlpatterns = patterns('yvonneskitchen.Page.base_views',
         (r'^admin/(.*)', admin.site.root),
 )
 
+urlpatterns += patterns('yvonneskitchen.Page.views',
+        ## Menu urls ##
+        (r'^menu/$', 'menu'),
+)
+
 urlpatterns += patterns('',
         ####### Static Media Serving #######
         (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),

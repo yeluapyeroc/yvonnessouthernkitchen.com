@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div id="menu-left">
+
+        <div id="menu-nav">
+            <a href="#" class="first" id="soups-salads-and-sides"></a>
+            <a href="#" class="selected" id="dinner-entrees"></a>
+            <a href="#" id="lunch-entrees"></a>
+            <a href="#" id="breakfast-entrees"></a>
+            <a href="#" id="trays-and-platters"></a>
+            <a href="#" id="breads-and-pastries"></a>
+            <a href="#" class="last" id="desserts"></a>
+        </div>
+
+        <div id="menu-estimate">
+            <form id="estimate-form" action="/estimate/" method="post">
+                {{ estimate_form.service_option }}
+                {{ estimate_form.head_count }}
+                {{ estimate_form.zip_code }}
+                <h1>Your Menu</h1>
+                <div id="selected-items">
+                    {% for item in selected_items %}
+                        <a href="#">
+                            <h2>{{item.item_name}}</h2>
+                            <h3>${{item.price|floatformat:2}}{%if item.per_person_item %} / p{%endif%}</h3>
+                        </a>
+                    {% endfor %}
+                </div>
+                {%if selected_items_has_previous_page%}
+                    <a href="#" id="previous-page-button">&lt;&lt; Previous</a>
+                {%endif%}
+                {%if selected_items_has_next_page%}
+                    <a href="#" id="next-page-button">Next &gt;&gt;</a>
+                {%endif%}
+                <h4>Service: <b>$200.00</b></h4><h5>Total: <b>$1596.50</b></h5>
+            </form>
+        </div>
+
+    </div>
+
+    <div id="menu-right">
+
+        <div class="page-button">
+
+            <h2>Page {{menu_page.number}} / {{menu_page.paginator.num_pages}}</h2>
+
+            <img src="/media/img/dinner-entrees-large.png"/>
+
+            {% if menu_has_previous_page %}
+                <a href="#" id="page-up-button"></a>
+            {% endif %}
+
+        </div>
+
+        <div id="menu-item-list">
+
+            {% for item in dinner_entrees %}
+                <div class="menu-item">
+                    <h1>{{item.item_name}}</h1>
+                    <div class="menu-item-thumb" style="background: url('{{item.image.url}}');"></div>
+                    <h2>${{item.price|floatformat:2}}{%if item.per_person_item%} / person{%endif%}</h2>
+                    <p>{{item.description}}</p>
+                    <p class="click-to-add">Click To Add To Your Menu</p>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <div class="page-button">
+
+            <h2>Page {{menu_page.number}} / {{menu_page.paginator.num_pages}}</h2>
+
+            {% if menu_has_next_page %}
+                <a href="#" id="page-down-button"></a>
+            {% endif %}
+
+        </div>
+    </div>
+
+{% endblock %}
