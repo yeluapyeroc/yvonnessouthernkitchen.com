@@ -29,12 +29,12 @@
 
 		<div id="nav">
 			<div class="container">
-				<a href="/" id="nav-home" class="nav-button{%ifequal page "home"%} selected{%endifequal%}"><img src="/media/img/blank.png"/></a>
-				<a href="/catering/" id="nav-catering"><img src="/media/img/blank.png"/></a>
-				<a href="/menu/" id="nav-menu"><img src="/media/img/blank.png"/></a>
-				<a href="/pricing/" id="nav-pricing"><img src="/media/img/blank.png"/></a>
-				<a href="/about/" id="nav-about"><img src="/media/img/blank.png"/></a>
-				<a href="/contact/" id="nav-contact"><img src="/media/img/blank.png"/></a>
+				<a href="/" id="nav-home"{%ifequal page "home"%} class="selected"{%endifequal%}><img src="/media/img/blank.png"/></a>
+				<a href="/menu/" id="nav-menu"{%ifequal page "menu"%} class="selected"{%endifequal%}><img src="/media/img/blank.png"/></a>
+				<a href="/catering/" id="nav-catering"{%ifequal page "catering"%} class="selected"{%endifequal%}><img src="/media/img/blank.png"/></a>
+				<a href="/delivery/" id="nav-delivery"{%ifequal page "delivery"%} class="selected"{%endifequal%}><img src="/media/img/blank.png"/></a>
+				<a href="/about/" id="nav-about"{%ifequal page "about"%} class="selected"{%endifequal%}><img src="/media/img/blank.png"/></a>
+				<a href="/contact/" id="nav-contact"{%ifequal page "contact"%} class="selected"{%endifequal%}><img src="/media/img/blank.png"/></a>
 			</div>
 		</div>
 
@@ -45,6 +45,16 @@
     <div id="content" class="container">
       {% block content %}
       {% endblock %}
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <div id="footer-content">
+          <a href="/">Home</a> | <a href="/menu/">Menu</a> | <a href="/catering/">Catering</a> | <a href="/delivery/">Delivery</a> | <a href="/about/">About</a> | <a href="/contact/">Contact</a> | <a href="/sitemap/">Sitemap</a>
+          <hr/>
+          &copy; 2010 Dev Space Nine - Designed by <a href="http://coreypauley.com" class="outbound">Corey Pauley</a>
+        </div>
+      </div>
     </div>
 
 	</body>
