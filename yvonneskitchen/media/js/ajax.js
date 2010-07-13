@@ -17,7 +17,7 @@ $my.ajax.home[0] = function() {
  */
 $my.ajax.menu[0] = function() {
   console.log('got here');
-  $('div.menu-item').click(function(e){
+  $('a.menu-item').click(function(e){
     $(this).animate({'margin':'2px 0 8px 10px'}, 0, function(){
       $(this).animate({'margin':'0 0 10px 10px'}, 50);
       });

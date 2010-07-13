@@ -90,6 +90,10 @@ FIXTURE_DIRS = (
     os.path.join(MEDIA_ROOT, 'fixtures'),
 )
 
+CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
