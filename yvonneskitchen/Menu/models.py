@@ -5,15 +5,13 @@ from tinymce import models as tinymce_models
 class MenuItem(models.Model):
     """Model for a menu item"""
     CATEGORY_CHOICES = (
-            ('soup', 'Soup'),
-            ('salad', 'Salad'),
-            ('side', 'Side'),
-            ('tray', 'Tray'),
-            ('breakfast', 'Breakfast'),
-            ('lunch', 'Lunch'),
-            ('dinner', 'Dinner'),
-            ('dessert', 'Dessert'),
-            ('bread', 'Bread'),
+            ('sides', 'Soups Sides & Salads'),
+            ('trays-and-platters', 'Trays & Platters'),
+            ('breakfast', 'Breakfast Entrees'),
+            ('lunch', 'Lunch Entrees'),
+            ('dinner', 'Dinner Entrees'),
+            ('desserts', 'Desserts'),
+            ('breads-and-pastries', 'Breads & Pastries'),
             )
 
     item_name = models.CharField(

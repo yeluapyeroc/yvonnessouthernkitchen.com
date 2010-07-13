@@ -1,0 +1,242 @@
+The ``import`` statement
+************************
+
+   import_stmt     ::= "import" module ["as" name] ( "," module ["as" name] )*
+                   | "from" relative_module "import" identifier ["as" name]
+                   ( "," identifier ["as" name] )*
+                   | "from" relative_module "import" "(" identifier ["as" name]
+                   ( "," identifier ["as" name] )* [","] ")"
+                   | "from" module "import" "*"
+   module          ::= (identifier ".")* identifier
+   relative_module ::= "."* module | "."+
+   name            ::= identifier
+
+Import statements are executed in two steps: (1) find a module, and
+initialize it if necessary; (2) define a name or names in the local
+namespace (of the scope where the ``import`` statement occurs). The
+statement comes in two forms differing on whether it uses the ``from``
+keyword. The first form (without ``from``) repeats these steps for
+each identifier in the list. The form with ``from`` performs step (1)
+once, and then performs step (2) repeatedly.
+
+To understand how step (1) occurs, one must first understand how
+Python handles hierarchical naming of modules. To help organize
+modules and provide a hierarchy in naming, Python has a concept of
+packages. A package can contain other packages and modules while
+modules cannot contain other modules or packages. From a file system
+perspective, packages are directories and modules are files. The
+original specification for packages is still available to read,
+although minor details have changed since the writing of that
+document.
+
+Once the name of the module is known (unless otherwise specified, the
+term "module" will refer to both packages and modules), searching for
+the module or package can begin. The first place checked is
+``sys.modules``, the cache of all modules that have been imported
+previously. If the module is found there then it is used in step (2)
+of import.
+
+If the module is not found in the cache, then ``sys.meta_path`` is
+searched (the specification for ``sys.meta_path`` can be found in
+**PEP 302**). The object is a list of *finder* objects which are
+queried in order as to whether they know how to load the module by
+calling their ``find_module()`` method with the name of the module. If
+the module happens to be contained within a package (as denoted by the
+existence of a dot in the name), then a second argument to
+``find_module()`` is given as the value of the ``__path__`` attribute
+from the parent package (everything up to the last dot in the name of
+the module being imported). If a finder can find the module it returns
+a *loader* (discussed later) or returns ``None``.
+
+If none of the finders on ``sys.meta_path`` are able to find the
+module then some implicitly defined finders are queried.
+Implementations of Python vary in what implicit meta path finders are
+defined. The one they all do define, though, is one that handles
+``sys.path_hooks``, ``sys.path_importer_cache``, and ``sys.path``.
+
+The implicit finder searches for the requested module in the "paths"
+specified in one of two places ("paths" do not have to be file system
+paths). If the module being imported is supposed to be contained
+within a package then the second argument passed to ``find_module()``,
+``__path__`` on the parent package, is used as the source of paths. If
+the module is not contained in a package then ``sys.path`` is used as
+the source of paths.
+
+Once the source of paths is chosen it is iterated over to find a
+finder that can handle that path. The dict at
+``sys.path_importer_cache`` caches finders for paths and is checked
+for a finder. If the path does not have a finder cached then
+``sys.path_hooks`` is searched by calling each object in the list with
+a single argument of the path, returning a finder or raises
+``ImportError``. If a finder is returned then it is cached in
+``sys.path_importer_cache`` and then used for that path entry. If no
+finder can be found but the path exists then a value of ``None`` is
+stored in ``sys.path_importer_cache`` to signify that an implicit,
+file-based finder that handles modules stored as individual files
+should be used for that path. If the path does not exist then a finder
+which always returns ``None`` is placed in the cache for the path.
+
+If no finder can find the module then ``ImportError`` is raised.
+Otherwise some finder returned a loader whose ``load_module()`` method
+is called with the name of the module to load (see **PEP 302** for the
+original definition of loaders). A loader has several responsibilities
+to perform on a module it loads. First, if the module already exists
+in ``sys.modules`` (a possibility if the loader is called outside of
+the import machinery) then it is to use that module for initialization
+and not a new module. But if the module does not exist in
+``sys.modules`` then it is to be added to that dict before
+initialization begins. If an error occurs during loading of the module
+and it was added to ``sys.modules`` it is to be removed from the dict.
+If an error occurs but the module was already in ``sys.modules`` it is
+left in the dict.
+
+The loader must set several attributes on the module. ``__name__`` is
+to be set to the name of the module. ``__file__`` is to be the "path"
+to the file unless the module is built-in (and thus listed in
+``sys.builtin_module_names``) in which case the attribute is not set.
+If what is being imported is a package then ``__path__`` is to be set
+to a list of paths to be searched when looking for modules and
+packages contained within the package being imported. ``__package__``
+is optional but should be set to the name of package that contains the
+module or package (the empty string is used for module not contained
+in a package). ``__loader__`` is also optional but should be set to
+the loader object that is loading the module.
+
+If an error occurs during loading then the loader raises
+``ImportError`` if some other exception is not already being
+propagated. Otherwise the loader returns the module that was loaded
+and initialized.
+
+When step (1) finishes without raising an exception, step (2) can
+begin.
+
+The first form of ``import`` statement binds the module name in the
+local namespace to the module object, and then goes on to import the
+next identifier, if any.  If the module name is followed by ``as``,
+the name following ``as`` is used as the local name for the module.
+
+The ``from`` form does not bind the module name: it goes through the
+list of identifiers, looks each one of them up in the module found in
+step (1), and binds the name in the local namespace to the object thus
+found.  As with the first form of ``import``, an alternate local name
+can be supplied by specifying "``as`` localname".  If a name is not
+found, ``ImportError`` is raised.  If the list of identifiers is
+replaced by a star (``'*'``), all public names defined in the module
+are bound in the local namespace of the ``import`` statement..
+
+The *public names* defined by a module are determined by checking the
+module's namespace for a variable named ``__all__``; if defined, it
+must be a sequence of strings which are names defined or imported by
+that module.  The names given in ``__all__`` are all considered public
+and are required to exist.  If ``__all__`` is not defined, the set of
+public names includes all names found in the module's namespace which
+do not begin with an underscore character (``'_'``). ``__all__``
+should contain the entire public API. It is intended to avoid
+accidentally exporting items that are not part of the API (such as
+library modules which were imported and used within the module).
+
+The ``from`` form with ``*`` may only occur in a module scope.  If the
+wild card form of import --- ``import *`` --- is used in a function
+and the function contains or is a nested block with free variables,
+the compiler will raise a ``SyntaxError``.
+
+When specifying what module to import you do not have to specify the
+absolute name of the module. When a module or package is contained
+within another package it is possible to make a relative import within
+the same top package without having to mention the package name. By
+using leading dots in the specified module or package after ``from``
+you can specify how high to traverse up the current package hierarchy
+without specifying exact names. One leading dot means the current
+package where the module making the import exists. Two dots means up
+one package level. Three dots is up two levels, etc. So if you execute
+``from . import mod`` from a module in the ``pkg`` package then you
+will end up importing ``pkg.mod``. If you execute ``from ..subpkg2
+imprt mod`` from within ``pkg.subpkg1`` you will import
+``pkg.subpkg2.mod``. The specification for relative imports is
+contained within **PEP 328**.
+
+The built-in function ``__import__()`` is provided to support
+applications that determine which modules need to be loaded
+dynamically; refer to *Built-in Functions* for additional information.
+
+
+Future statements
+=================
+
+A *future statement* is a directive to the compiler that a particular
+module should be compiled using syntax or semantics that will be
+available in a specified future release of Python.  The future
+statement is intended to ease migration to future versions of Python
+that introduce incompatible changes to the language.  It allows use of
+the new features on a per-module basis before the release in which the
+feature becomes standard.
+
+   future_statement ::= "from" "__future__" "import" feature ["as" name]
+                        ("," feature ["as" name])*
+                        | "from" "__future__" "import" "(" feature ["as" name]
+                        ("," feature ["as" name])* [","] ")"
+   feature          ::= identifier
+   name             ::= identifier
+
+A future statement must appear near the top of the module.  The only
+lines that can appear before a future statement are:
+
+* the module docstring (if any),
+
+* comments,
+
+* blank lines, and
+
+* other future statements.
+
+The features recognized by Python 2.6 are ``unicode_literals``,
+``print_function``, ``absolute_import``, ``division``, ``generators``,
+``nested_scopes`` and ``with_statement``.  ``generators``,
+``with_statement``, ``nested_scopes`` are redundant in Python version
+2.6 and above because they are always enabled.
+
+A future statement is recognized and treated specially at compile
+time: Changes to the semantics of core constructs are often
+implemented by generating different code.  It may even be the case
+that a new feature introduces new incompatible syntax (such as a new
+reserved word), in which case the compiler may need to parse the
+module differently.  Such decisions cannot be pushed off until
+runtime.
+
+For any given release, the compiler knows which feature names have
+been defined, and raises a compile-time error if a future statement
+contains a feature not known to it.
+
+The direct runtime semantics are the same as for any import statement:
+there is a standard module ``__future__``, described later, and it
+will be imported in the usual way at the time the future statement is
+executed.
+
+The interesting runtime semantics depend on the specific feature
+enabled by the future statement.
+
+Note that there is nothing special about the statement:
+
+   import __future__ [as name]
+
+That is not a future statement; it's an ordinary import statement with
+no special semantics or syntax restrictions.
+
+Code compiled by an ``exec`` statement or calls to the built-in
+functions ``compile()`` and ``execfile()`` that occur in a module
+``M`` containing a future statement will, by default, use the new
+syntax or semantics associated with the future statement.  This can,
+starting with Python 2.2 be controlled by optional arguments to
+``compile()`` --- see the documentation of that function for details.
+
+A future statement typed at an interactive interpreter prompt will
+take effect for the rest of the interpreter session.  If an
+interpreter is started with the *-i* option, is passed a script name
+to execute, and the script includes a future statement, it will be in
+effect in the interactive session started after the script is
+executed.
+
+See also:
+
+   **PEP 236** - Back to the __future__
+      The original proposal for the __future__ mechanism.
