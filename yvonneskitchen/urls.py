@@ -26,6 +26,19 @@ urlpatterns += patterns('yvonneskitchen.Page.views',
         (r'^menu/(?P<section>sides|breakfast|lunch|dinner|trays-and-platters|desserts|breads-and-pastries)/(?P<page>\d+)/(?P<estimate_page>\d+)/$', 'menu'),
         (r'^menu/(?P<section>sides|breakfast|lunch|dinner|trays-and-platters|desserts|breads-and-pastries)/(?P<page>\d+)/(?P<estimate_page>\d+)/add/(?P<item_id>\d+)/$', 'menu_add_item'),
         (r'^menu/(?P<section>sides|breakfast|lunch|dinner|trays-and-platters|desserts|breads-and-pastries)/(?P<page>\d+)/(?P<estimate_page>\d+)/remove/(?P<item_id>\d+)/$', 'menu_remove_item'),
+        (r'^menu/compute/(?P<section>sides|breakfast|lunch|dinner|trays-and-platters|desserts|breads-and-pastries)/(?P<page>\d+)/(?P<estimate_page>\d+)/$', 'menu_compute_estimate'),
+
+        ## Catering urls ##
+        (r'^catering/$', 'catering'),
+
+        ## Delivery urls ##
+        (r'^delivery/$', 'delivery'),
+
+        ## About urls ##
+        (r'^about/$', 'about'),
+
+        ## Contact urls ##
+        (r'^contact/$', 'contact'),
 )
 
 urlpatterns += patterns('',

@@ -15,27 +15,62 @@
         </div>
 
         <div id="menu-estimate">
-            <form id="estimate-form" action="/estimate/" method="post">
-                {{ estimate_form.service_option }}
-                {{ estimate_form.head_count }}
-                {{ estimate_form.zip_code }}
+            <form id="estimate-form" action="/menu/compute/{{section}}/{{menu_page.number}}/{{estimate_page.number}}/" method="post">
+                {%csrf_token%}
+                {%if estimate_form.service_option.errors%}
+                <div class='error'>
+                {%endif%}
+                <label id="service-option-label" for="id_head_count">Catered or Delivery:</label>{{ estimate_form.service_option }}
+                {%if estimate_form.service_option.errors%}
+                    {{estimate_form.service_option.errors}}
+                </div>
+                {%endif%}
+                {%if estimate_form.head_count.errors%}
+                <div class='error'>
+                {%endif%}
+                    <label id="head-count-label" for="id_head_count">Head Count:</label>{{ estimate_form.head_count }}
+                {%if estimate_form.head_count.errors%}
+                    {{estimate_form.head_count.errors}}
+                </div>
+                {%endif%}
+                {%if estimate_form.zip_code.errors%}
+                <div class='error'>
+                {%endif%}
+                    <label id="zip-code-label" for="id_zip_code">Zip Code:</label>{{ estimate_form.zip_code }}
+                {%if estimate_form.zip_code.errors%}
+                    {{estimate_form.zip_code.errors}}
+                </div>
+                {%endif%}
+
                 <h1>Your Menu</h1>
                 <h2>Page {{estimate_page.number}} / {{estimate_page.paginator.num_pages}}</h2>
+
                 <div id="selected-items">
                     {% for item in selected_items %}
                         <a href="/menu/{{section}}/{{menu_page.number}}/{{estimate_page.number}}/remove/{{item.id}}/">
                             <h3>{{item.item_name}}</h3>
-                            <h4>${{item.price|floatformat:2}}{%if item.per_person_item %} / p{%endif%}</h4>
+                            <h4>${%if item.weekly_special%}{{item.special_price|floatformat:2}}{%else%}{{item.price|floatformat:2}}{%endif%}{%if item.per_person_item %} / p{%endif%}</h4>
                         </a>
+                    {% empty %}
+                        <p>Add items to your menu and complete the above form to get an estimate for your event.</p>
                     {% endfor %}
                 </div>
-                {%if selected_items_has_previous_page%}
-                    <a href="/menu/{{section}}/{{menu_page.number}}/{{estimate_page.previous_page_number}}/" id="previous-page-button">&lt;&lt; Prev</a>
+
+                <div id="estimate-nav-buttons">
+                    {%if selected_items_has_previous_page%}
+                        <a href="/menu/{{section}}/{{menu_page.number}}/{{estimate_page.previous_page_number}}/" id="previous-page-button">&lt;&lt; Prev</a>
+                    {%endif%}
+
+                    <input id="compute-estimate-button" type="submit" value="Compute Estimate"/>
+    
+                    {%if selected_items_has_next_page%}
+                        <a href="/menu/{{section}}/{{menu_page.number}}/{{estimate_page.next_page_number}}/" id="next-page-button">Next &gt;&gt;</a>
+                    {%endif%}
+                </div>
+
+                {%if estimate_computed%}
+                    <h5>Service: <b>${{estimate_service_charge|floatformat:2}}</b></h5><h6>Total: <b>${{estimate_total|floatformat:2}}</b></h6>
                 {%endif%}
-                {%if selected_items_has_next_page%}
-                    <a href="/menu/{{section}}/{{menu_page.number}}/{{estimate_page.next_page_number}}/" id="next-page-button">Next &gt;&gt;</a>
-                {%endif%}
-                <h5>Service: <b>$200.00</b></h5><h6>Total: <b>$1596.50</b></h6>
             </form>
         </div>
 
@@ -43,15 +78,9 @@
 
     <div id="menu-right">
 
-        <div class="page-button">
-
-            <h2>Page {{menu_page.number}} / {{menu_page.paginator.num_pages}}</h2>
+        <div id="menu-header">
 
             <img src="/media/img/menu-header-{{section}}.png"/>
-
-            {% if menu_has_previous_page %}
-                <a href="/menu/{{section}}/{{menu_page.previous_page_number}}/{{estimate_page.number}}/" id="page-up-button"></a>
-            {% endif %}
 
         </div>
 
@@ -62,7 +91,7 @@
                 <a href="/menu/{{section}}/{{menu_page.number}}/{{estimate_page.number}}/add/{{item.id}}/" class="menu-item">
                     <h1>{{item.item_name}}</h1>
                     <div class="menu-item-thumb" style="background: url('{{item.image.url}}');"></div>
-                    <h2>${{item.price|floatformat:2}}{%if item.per_person_item%} / person{%endif%}</h2>
+                    <h2>${%if item.weekly_special%}{{item.special_price|floatformat:2}}{%else%}{{item.price|floatformat:2}}{%endif%}{%if item.per_person_item%} / person{%endif%}</h2>
                     <p>{{item.description}}</p>
                     <p class="click-to-add">Click To Add To Your Menu</p>
                 </a>
@@ -70,13 +99,19 @@
 
         </div>
 
-        <div class="page-button">
+        <div id="menu-page-buttons">
 
+            {%if menu_has_previous_page%}
+            <a href="/menu/{{section}}/{{menu_page.previous_page_number}}/{{estimate_page.number}}/" id="back-button"></a>
+            {%else%}
+            <div id="inactive-back-button"></div>
+            {%endif%}
             <h2>Page {{menu_page.number}} / {{menu_page.paginator.num_pages}}</h2>
-
-            {% if menu_has_next_page %}
-                <a href="/menu/{{section}}/{{menu_page.next_page_number}}/{{estimate_page.number}}/" id="page-down-button"></a>
-            {% endif %}
+            {%if menu_has_next_page%}
+            <a href="/menu/{{section}}/{{menu_page.next_page_number}}/{{estimate_page.number}}/" id="next-button"></a>
+            {%else%}
+            <div id="inactive-next-button"></div>
+            {%endif%}
 
         </div>
     </div>
