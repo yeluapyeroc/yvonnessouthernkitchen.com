@@ -205,13 +205,18 @@ select:hover, input:hover, select:focus, input:focus {
     display: block;
     float: left;
     position: relative;
-    z-index: 1;
+    z-index: 0;
     width: 598px;
     height: 373px;
     border: 1px solid #999;
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
     border-radius: 8px;
+}
+
+#slideshow-frame div.feature-image.selected {
+    position: absolute;
+    z-index: 1;
 }
 
 #slideshow-frame h1 {
@@ -366,13 +371,37 @@ div.slideshow-buttons a:hover div, div.slideshow-buttons a.selected div {
     width: 286px;
 }
 
+#home-estimate form label {
+    display: block;
+    float: left;
+    height: 28px;
+    line-height: 28px;
+    font-size: 1.0em;
+    font-weight: bold;
+    color: #555;
+    margin: 0 5px 10px 0;
+}
+
+#home-estimate form label#service-option-label {
+    width: 116px;
+    margin: 0 5px 5px 0;
+}
+
+#home-estimate form label#head-count-label {
+    width: 71px;
+}
+
+#home-estimate form label#zip-code-label {
+    width: 54px;
+}
+
 #home-estimate form select {
     display: block;
     float: left;
-    width: 286px;
+    width: 165px;
     height: 28px;
     line-height: 18px;
-    margin: 0 10px 5px 0;
+    margin: 0 0 5px 0;
     padding: 4px 5px 5px 5px;
     background: #8EAB97;
     border: 1px solid #B6C4D1;
@@ -381,7 +410,6 @@ div.slideshow-buttons a:hover div, div.slideshow-buttons a.selected div {
 #home-estimate form input {
     display: block;
     float: left;
-    width: 126px;
     height: 16px;
     line-height: 16px;
     margin: 0 10px 10px 0;
@@ -390,13 +418,18 @@ div.slideshow-buttons a:hover div, div.slideshow-buttons a.selected div {
     border: 1px solid #B6C4D1;
 }
 
-#home-estimate form select:hover, #home-estimate form select:focus, #home-estimate form input:hover, #home-estimate form input:focus {
-    background: #B6C4D1;
-    border: 1px solid #999;
+#home-estimate form input#id_head_count {
+    width: 39px;
 }
 
 #home-estimate form input#id_zip_code {
+    width: 78px;
     margin: 0 0 5px 0;
+}
+
+#home-estimate form select:hover, #home-estimate form select:focus, #home-estimate form input:hover, #home-estimate form input:focus {
+    background: #B6C4D1;
+    border: 1px solid #999;
 }
 
 #home-estimate form #estimate-button {
@@ -740,7 +773,7 @@ div.slideshow-buttons a:hover div, div.slideshow-buttons a.selected div {
     font-size: 1.0em;
     font-weight: bold;
     color: #555;
-    margin: 0 5px 10px 0;
+    margin: 0 5px 5px 0;
 }
 
 #menu-estimate form label#service-option-label {
@@ -767,6 +800,10 @@ div.slideshow-buttons a:hover div, div.slideshow-buttons a.selected div {
     border: 1px solid #999;
 }
 
+#menu-estimate form div.error label {
+    color: #813A32;
+}
+
 #menu-estimate form div.error input {
     border: 1px solid #813A32;
     background: #CECCBF;
@@ -791,7 +828,7 @@ div.slideshow-buttons a:hover div, div.slideshow-buttons a.selected div {
     font-size: 1.0em;
     font-weight: bold;
     color: #555;
-    margin: 0 0 5px 0;
+    margin: 5px 0 5px 0;
 }
 
 #menu-estimate form h2 {
@@ -805,7 +842,7 @@ div.slideshow-buttons a:hover div, div.slideshow-buttons a.selected div {
     font-weight: bold;
     color: #555;
     text-align: right;
-    margin: 0 0 5px 0;
+    margin: 5px 0 5px 0;
 }
 
 #menu-estimate form div#selected-items {

@@ -3,12 +3,33 @@ from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
+from yvonneskitchen.Page.models import HomePage
 from yvonneskitchen.Menu.models import MenuItem
-from yvonneskitchen.forms import EstimateForm
+from yvonneskitchen.forms import EstimateForm, WeeklySpecialForm
+
+def slideshow(request, item_id):
+    context = {}
+    if not request.session.get('estimate_form_service_option'):
+        request.session['estimate_form_service_option'] = 'none'
+    if not request.session.get('estimate_form_head_count'):
+        request.session['estimate_form_head_count'] = ''
+    if not request.session.get('estimate_form_zip_code'):
+        request.session['estimate_form_zip_code'] = ''
+    context['page'] = 'home'
+    page_variables = HomePage.objects.get(id=1)
+    context['intro'] = page_variables.intro_statement
+    context['food_description'] = page_variables.food_description
+    context['estimate_form'] = EstimateForm(initial={'service_option': request.session['estimate_form_service_option'], 'head_count': request.session['estimate_form_head_count'], 'zip_code': request.session['estimate_form_zip_code']})
+    context['weekly_special_form'] = WeeklySpecialForm(initial={'name': 'Name:', 'email_address': 'Email Address:'})
+    context['special'] = MenuItem.objects.filter(weekly_special=True)[0]
+    context['featured_items'] = MenuItem.objects.filter(featured=True)[:7]
+    context['selected_feature_item'] = MenuItem.objects.get(id=int(item_id))
+    context['selected_feature_item_id'] = int(item_id)
+
+    return render_to_response('home/home.html', context, context_instance=RequestContext(request))
 
 def menu(request, section=None, page=None, estimate_page=None, estimate_form=None):
     context = {}
-    context['page'] = 'menu'
     if not request.session.get('estimate_list'):
         request.session['estimate_list'] = []
     if not request.session.get('estimate_computed'):
@@ -25,11 +46,12 @@ def menu(request, section=None, page=None, estimate_page=None, estimate_form=Non
         request.session['estimate_form_zip_code'] = ''
     if not section:
         section = 'sides'
-    context['section'] = section
     if not page:
         page = 1
     if not estimate_page:
         estimate_page = 1
+    context['page'] = 'menu'
+    context['section'] = section
     if not estimate_form:
         context['estimate_form'] = EstimateForm(initial={'service_option': request.session['estimate_form_service_option'], 'head_count': request.session['estimate_form_head_count'], 'zip_code': request.session['estimate_form_zip_code']})
     else:
@@ -70,10 +92,12 @@ def menu_remove_item(request, section, page, estimate_page, item_id):
 
     return HttpResponseRedirect('/menu/%s/%s/%s/' % (section, page, estimate_page))
 
-def menu_compute_estimate(request, section, page, estimate_page):
+def menu_compute_estimate(request, section='sides', page=1, estimate_page=1):
     context = {}
     if request.method == 'POST':
         form = EstimateForm(request.POST)
+        if not request.session.get('estimate_list'):
+            request.session['estimate_list'] = []
         if form.is_valid():
             service_option = form.cleaned_data['service_option']
             request.session['estimate_form_service_option'] = service_option

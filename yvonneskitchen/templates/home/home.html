@@ -13,24 +13,28 @@
 
         <div class="slideshow-buttons">
         {% for item in featured_items %}
-            <a {% if forloop.first %}class="selected" {% endif %}href="#"><div></div></a>
+            <a {%if forloop.first and not selected_feature_item_id%}class="selected" {%else%}{%ifequal selected_feature_item_id item.id%}class="selected" {%endifequal%}{%endif%}href="/slideshow/{{item.id}}/"><div></div></a>
         {% endfor %}
         </div>
 
-        <h1>Cajun Chicken Pasta</h1>
+        <h1>{{selected_feature_item.item_name}}</h1>
 
         <div id="slideshow-inner-frame">
         {% for item in featured_items %}
-            <div class="feature-image{% if forloop.first %} selected{% endif %}" style="background:url('{{item.feature_image.url}}');"></div>
+            <div class="feature-image{% if forloop.first and not selected_feature_item_id%} selected{%else%}{%ifequal selected_feature_item_id item.id%} selected{%endifequal%}{% endif %}" style="background:url('{{item.feature_image.url}}');"></div>
         {% endfor %}
         </div>
     </div>
     <div id="home-estimate">
         <h1>Get A Price Estimate</h1>
         <p>Build a custom menu for your event and see what it would cost to order. Just click on a menu item to add it to your estimate.</p>
-        <form id="estimate-form" action="/estimate/" method="post">
+        <form id="estimate-form" action="/menu/compute/sides/1/1/" method="post">
+            {%csrf_token%}
+            <label id="service-option-label" for="id_service_option">Catered or Delivery:</label>
             {{ estimate_form.service_option }}
+            <label id="head-count-label" for="id_head_count">Head Count:</label>
             {{ estimate_form.head_count }}
+            <label id="zip-code-label" for="id_zip_code">Zip Code:</label>
             {{ estimate_form.zip_code }}
             <input id="estimate-button" type="submit" value="Customize Your Menu"/>
         </form>

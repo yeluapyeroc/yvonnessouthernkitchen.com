@@ -20,7 +20,7 @@
                 {%if estimate_form.service_option.errors%}
                 <div class='error'>
                 {%endif%}
-                <label id="service-option-label" for="id_head_count">Catered or Delivery:</label>{{ estimate_form.service_option }}
+                <label id="service-option-label" for="id_service_option">Catered or Delivery:</label>{{ estimate_form.service_option }}
                 {%if estimate_form.service_option.errors%}
                     {{estimate_form.service_option.errors}}
                 </div>
@@ -28,7 +28,7 @@
                 {%if estimate_form.head_count.errors%}
                 <div class='error'>
                 {%endif%}
-                    <label id="head-count-label" for="id_head_count">Head Count:</label>{{ estimate_form.head_count }}
+                <label id="head-count-label" for="id_head_count">Head Count:</label>{{ estimate_form.head_count }}
                 {%if estimate_form.head_count.errors%}
                     {{estimate_form.head_count.errors}}
                 </div>
@@ -36,7 +36,7 @@
                 {%if estimate_form.zip_code.errors%}
                 <div class='error'>
                 {%endif%}
-                    <label id="zip-code-label" for="id_zip_code">Zip Code:</label>{{ estimate_form.zip_code }}
+                <label id="zip-code-label" for="id_zip_code">Zip Code:</label>{{ estimate_form.zip_code }}
                 {%if estimate_form.zip_code.errors%}
                     {{estimate_form.zip_code.errors}}
                 </div>

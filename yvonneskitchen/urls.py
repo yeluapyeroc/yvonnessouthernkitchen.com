@@ -19,6 +19,9 @@ urlpatterns = patterns('yvonneskitchen.Page.base_views',
 )
 
 urlpatterns += patterns('yvonneskitchen.Page.views',
+        ## Home urls ##
+        (r'^slideshow/(?P<item_id>\d)/$', 'slideshow'),
+
         ## Menu urls ##
         (r'^menu/$', 'menu'),
         (r'^menu/(?P<section>sides|breakfast|lunch|dinner|trays-and-platters|desserts|breads-and-pastries)/$', 'menu'),
